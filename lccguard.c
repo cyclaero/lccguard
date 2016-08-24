@@ -199,11 +199,11 @@ int main(int argc, char *argv[])
 
    for (;;)
    {
-		sleep(idle);
+      sleep(idle);
       int fd = open(tmplccfn, O_WRONLY|O_CREAT|O_TRUNC|O_EXLOCK, 0666);
       fcntl(fd, F_NOCACHE, 1);
-		write(fd, "load cycle prevention\n", 22);
-		close(fd);
+      write(fd, "load cycle prevention\n", 22);
+      close(fd);
    }
 
    return 0;
