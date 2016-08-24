@@ -31,4 +31,4 @@ a small amount of data to it.
          sudo launchctl load /Library/LaunchDaemons/lccguard.plist
 
 
-From now on, subsequent reboots, the lccguard daemon is launched automatically.
+From now, on subsequent reboots, the lccguard daemon is launched automatically.
