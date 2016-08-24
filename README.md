@@ -22,14 +22,14 @@ from load cycling its heads. The frequency can be adjusted, though.
 
 1. compile lccguard.c
 
-     sudo mkdir -p /usr/local/bin [optional, only if /usr/local/bin does not exist]
-     sudo clang lccguard.c -Wno-empty-body -Ofast -g0 -o /usr/local/bin/lccguard
-     sudo strip /usr/local/bin/lccguard
+         sudo mkdir -p /usr/local/bin [optional, only if /usr/local/bin does not exist]
+         sudo clang lccguard.c -Wno-empty-body -Ofast -g0 -o /usr/local/bin/lccguard
+         sudo strip /usr/local/bin/lccguard
    
 2. place the lccguard.plist file int /Library/LaunchDaemons/lccguard.plist
 
-     sudo cp lccguard.plist /Library/LaunchDaemons/lccguard.plist
+         sudo cp lccguard.plist /Library/LaunchDaemons/lccguard.plist
 
 3. start the lccguard daemon
 
-     sudo launchctl load /Library/LaunchDaemons/lccguard.plist
+         sudo launchctl load /Library/LaunchDaemons/lccguard.plist
