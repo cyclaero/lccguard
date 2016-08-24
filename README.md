@@ -1,7 +1,7 @@
 # lccguard
 **A small daemon for stopping Load Cycling of the startup disk of Mac OS X**
 
-Some Mac hard disks do not respeond to [**hdapm - A Mac utility for setting the power management (APM) level on SATA hard drives **](http://mckinlay.net.nz/hdapm/),
+Some Mac hard disks do not respeond to [hdapm - A Mac utility for setting the power management (APM) level on SATA hard drives](http://mckinlay.net.nz/hdapm/),
 and in this case the onlu possibility to prevent excessive load cylcling of the startup disk of a Mac and by this [beating it
 to death](http://www.kg4cyx.net/mac-os-x-is-beating-your-hard-drives-to-death-heres-the-fix/), is to frequently write-flush
 a small amount of data to it.
@@ -18,7 +18,7 @@ from load cycling its heads. The frequency can be adjusted, though.
      -h         shows these usage instructions.
 
 
-**Installation**
+**Installation and First Start**
 
 1. compile lccguard.c
 
@@ -33,3 +33,6 @@ from load cycling its heads. The frequency can be adjusted, though.
 3. start the lccguard daemon
 
          sudo launchctl load /Library/LaunchDaemons/lccguard.plist
+
+
+On subsequent reboots, the lccguard daemon is launched automatically.
