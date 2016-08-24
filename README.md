@@ -1,4 +1,3 @@
-# lccguard
 **A small daemon for stopping Load Cycling of the startup disk of Mac OS X systems**
 
 Some Mac hard disks do not respond to [hdapm - A Mac utility for setting the power management (APM) level on SATA hard drives](http://mckinlay.net.nz/hdapm/), and in this case the only possibility to prevent excessive load cycling of the startup disk of a Mac and by this [beating it to death](http://www.kg4cyx.net/mac-os-x-is-beating-your-hard-drives-to-death-heres-the-fix/), is to frequently write-flush
