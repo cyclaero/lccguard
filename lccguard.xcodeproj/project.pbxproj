@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7E43C79C1D6E3D2800B251BC /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 7E43C79B1D6E3D2800B251BC /* README.md */; };
 		8DD76FAC0486AB0100D96B5E /* lccguard.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* lccguard.c */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
@@ -114,7 +113,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E43C79C1D6E3D2800B251BC /* README.md in Sources */,
 				8DD76FAC0486AB0100D96B5E /* lccguard.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
