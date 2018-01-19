@@ -6,12 +6,14 @@ a small amount of data to it.
 [**lccguard**](https://obsigna.net/?p=647) is a small standalone daemon, that writes a tiny string to /var/tmp/lccguard.dummy every 4 seconds, and by this way prevents the respective disk from load cycling its heads. The frequency can be adjusted:
 
     $ lccguard -h
-    usage: lccguard [-p file] [-f] [-n] [-h]
+    usage: lccguard [-p file] [-f] [-n] [-h] dummy_file_0 [dummy_file_1] ...
      -p file    the path to the pid file [default: /var/run/lccguard.pid]
      -f         foreground mode, don't fork off as a daemon.
      -n         no console, don't fork off as a daemon - started/managed by launchd.
      -t         idle time in seconds, [default: 4 s].
      -h         shows these usage instructions.
+     dummy_file_0 [dummy_file_1] [dummy_file_2] [dummy_file_3] [dummy_file_4] ...
+                the full path names of the dummy files to be repeatedly re-written.
 
 
 **Installation and First Start**

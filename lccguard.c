@@ -3,7 +3,7 @@
 //  Created by Dr. Rolf Jansen on 2016-08-24.
 //  Copyright 2016 Dr. Rolf Jansen. All rights reserved.
 //
-// sudo clang lccguard.c -Wno-empty-body -Ofast -g0 -o /usr/local/bin/lccguard
+// sudo clang lccguard.c -Wno-empty-body -Wno-parentheses -O3 -g0 -o /usr/local/bin/lccguard
 // sudo strip /usr/local/bin/lccguard
 
 
@@ -17,22 +17,36 @@
 #include <sys/stat.h>
 
 
-#define DAEMON_NAME    "lccguard"
+#define DAEMON_NAME "lccguard"
 
-const char *pidfname = "/var/run/lccguard.pid";
-const char *tmplccfn = "/tmp/lccguard.dummy";
+const char  *pidfname = "/var/run/lccguard.pid";
+const char **fdummies = NULL;
 
 
 void usage(const char *executable)
 {
    const char *r = executable + strlen(executable);
    while (--r >= executable && *r != '/'); r++;
-   printf("\nusage: %s [-p file] [-f] [-n] [-t] [-h]\n", r);
+   printf("\nusage: %s [-p file] [-f] [-n] [-t] [-h] dummy_file_0 [dummy_file_1] ...\n", r);
    printf(" -p file    the path to the pid file [default: /var/run/lccguard.pid]\n");
    printf(" -f         foreground mode, don't fork off as a daemon.\n");
    printf(" -n         no console, don't fork off as a daemon - started/managed by launchd.\n");
    printf(" -t         idle time in seconds, [default: 4 s].\n");
-   printf(" -h         shows these usage instructions.\n\n");
+   printf(" -h         shows these usage instructions.\n");
+   printf(" dummy_file_0 [dummy_file_1] [dummy_file_2] ...\n");
+   printf("            the full path names of the dummy files to be repeatedly re-written.\n\n");
+}
+
+
+void cleanup(void)
+{
+   for (int k = 0; fdummies[k]; k++)
+   {
+      unlink(fdummies[k]);
+      free((void *)fdummies[k]);
+   }
+   free(fdummies);
+   unlink(pidfname);
 }
 
 
@@ -43,29 +57,24 @@ static void signals(int sig)
       case SIGHUP:
          syslog(LOG_ERR, "Received SIGHUP signal.");
          kill(0, SIGHUP);
-         unlink(tmplccfn);
-         unlink(pidfname);
          exit(0);
          break;
 
       case SIGINT:
          syslog(LOG_ERR, "Received SIGINT signal.");
          kill(0, SIGINT);
-         unlink(pidfname);
          exit(0);
          break;
 
       case SIGQUIT:
          syslog(LOG_ERR, "Received SIGQUIT signal.");
          kill(0, SIGQUIT);
-         unlink(pidfname);
          exit(0);
          break;
 
       case SIGTERM:
          syslog(LOG_ERR, "Received SIGTERM signal.");
          kill(0, SIGTERM);
-         unlink(pidfname);
          exit(0);
          break;
 
@@ -89,6 +98,7 @@ void daemonize(DaemonKind kind)
    switch (kind)
    {
       case noDaemon:
+         signal(SIGINT, signals);
          openlog(DAEMON_NAME, LOG_NDELAY | LOG_PID | LOG_CONS, LOG_USER);
          break;
 
@@ -159,6 +169,7 @@ void daemonize(DaemonKind kind)
 int main(int argc, char *argv[])
 {
    char        ch, *p;
+   int         i, k, fd;
    int64_t     idle  = 4;
    const char *cmd   = argv[0];
    DaemonKind  dKind = discreteDaemon;
@@ -183,27 +194,77 @@ int main(int argc, char *argv[])
             if ((idle = strtol(optarg, &p, 10)) <= 0)
             {
                usage(cmd);
-               exit(0);
+               return 1;
             }
             break;
 
          case 'h':
+            usage(cmd);
+            return 0;
+
          default:
             usage(cmd);
-            exit(0);
+            return 1;
             break;
       }
    }
 
+   argc -= optind;
+   argv += optind;
+   if (argc == 0)
+   {
+      usage(cmd);
+      return 1;
+   }
+
    daemonize(dKind);
 
-   for (;;)
+   if (fdummies = calloc(argc+1, sizeof(const char *)))
    {
-      sleep(idle);
-      int fd = open(tmplccfn, O_WRONLY|O_CREAT|O_TRUNC|O_EXLOCK, 0666);
-      fcntl(fd, F_NOCACHE, 1);
-      write(fd, "load cycle prevention\n", 22);
-      close(fd);
+      for (i = 0, k = 0; i < argc; i++)
+      {
+         if (p = malloc(strlen(argv[i])+1))
+         {
+            if ((fd = open(argv[i], O_WRONLY|O_CREAT|O_TRUNC|O_EXLOCK, 0666)) != -1)
+            {
+               fdummies[k++] = strcpy(p, argv[i]);
+               fcntl(fd, F_NOCACHE, 1);
+               write(fd, "load cycle prevention\n", 22);
+               close(fd);
+            }
+            else
+               free(p);
+         }
+         else
+         {
+            cleanup();
+            exit(1);
+         }
+      }
+
+      if (!k)
+      {
+         free(fdummies);
+         exit(1);
+      }
+      else
+      {
+         atexit(cleanup);
+
+         for (;;)
+         {
+            sleep(idle);
+            for (k = 0; fdummies[k]; k++)
+            {
+               if ((fd = open(fdummies[k], O_WRONLY|O_CREAT|O_TRUNC|O_EXLOCK, 0666)) != -1)
+               {
+                  fcntl(fd, F_NOCACHE, 1);
+                  write(fd, "load cycle prevention\n", 22);
+                  close(fd);
+               }
+            }
+         }
+      }
    }
 
    return 0;
