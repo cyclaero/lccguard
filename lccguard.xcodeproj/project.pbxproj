@@ -27,6 +27,7 @@
 		7E43C7991D6E3D2800B251BC /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		7E43C79A1D6E3D2800B251BC /* lccguard.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = lccguard.plist; sourceTree = "<group>"; };
 		7E43C79B1D6E3D2800B251BC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		7EFCA774216A5400001A2F07 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8DD76FB20486AB0100D96B5E /* lccguard */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lccguard; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -47,6 +48,7 @@
 				08FB7796FE84155DC02AAC07 /* lccguard.c */,
 				7E43C79A1D6E3D2800B251BC /* lccguard.plist */,
 				7E43C79B1D6E3D2800B251BC /* README.md */,
+				7EFCA774216A5400001A2F07 /* LICENSE */,
 				7E43C7991D6E3D2800B251BC /* .gitignore */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 			);
