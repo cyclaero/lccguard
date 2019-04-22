@@ -24,7 +24,7 @@ a small amount of data to it.
          sudo clang lccguard.c -Wno-empty-body -Ofast -g0 -o /usr/local/bin/lccguard
          sudo strip /usr/local/bin/lccguard
    
-2. Place the lccguard.plist file int /Library/LaunchDaemons/lccguard.plist
+2. Place the lccguard.plist file into /Library/LaunchDaemons/lccguard.plist
 
          sudo cp lccguard.plist /Library/LaunchDaemons/lccguard.plist
 
@@ -33,4 +33,4 @@ a small amount of data to it.
          sudo launchctl load /Library/LaunchDaemons/lccguard.plist
 
 
-From now, on subsequent reboots, the lccguard daemon is launched automatically.
+Then the lccguard daemon would be launched automatically in the course of subsequent reboots.
