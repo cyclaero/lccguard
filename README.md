@@ -3,7 +3,7 @@
 Some Mac hard disks do not respond to [hdapm - A Mac utility for setting the power management (APM) level on SATA hard drives](http://mckinlay.net.nz/hdapm/), and in this case the only possibility to prevent excessive load cycling of the startup disk of a Mac and by this [beating it to death](http://www.kg4cyx.net/mac-os-x-is-beating-your-hard-drives-to-death-heres-the-fix/), is to frequently write-flush
 a small amount of data to it.
 
-[**lccguard**](https://obsigna.com/articles/1483286564.html) is a small standalone daemon, that writes a tiny string to /var/tmp/lccguard.dummy every 4 seconds, and by this way prevents the respective disk from load cycling its heads. The frequency can be adjusted:
+**lccguard** - `https://obsigna.com/articles/1483286564.html` is a small standalone daemon, that writes a tiny string to /var/tmp/lccguard.dummy every 4 seconds, and by this way prevents the respective disk from load cycling its heads. The frequency can be adjusted:
 
     $ lccguard -h
     usage: lccguard [-p file] [-f] [-n] [-h] dummy_file_0 [dummy_file_1] ...
